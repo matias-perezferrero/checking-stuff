@@ -1,22 +1,25 @@
 module.exports = {
   getAllPosts: (req, res) => {
     const db = req.app.get("db");
-    const { userposts } = req.body;
-    const { search } = req.query;
+    const { search, userposts } = req.query;
     const { id } = req.params;
-    if (search !== "" && userposts) {
+    if (search !== "" && userposts == "true") {
+      // console.log("1");
       return db.post.get_searched_posts([search]).then(resp => {
         res.status(200).send(resp);
       });
-    } else if (search == "" && !userposts) {
+    } else if (search == "" && userposts == "false") {
+      // console.log("2");
       return db.post.get_other_user_posts([id]).then(resp => {
         res.status(200).send(resp);
       });
-    } else if (search !== "" && !userposts) {
+    } else if (search !== "" && userposts == "false") {
+      // console.log("3");
       return db.post.get_searched_other_user_posts([id, search]).then(resp => {
         res.status(200).send(resp);
       });
-    } else {
+    } else if (search == "" && userposts == "true") {
+      // console.log("4");
       return db.post.get_all_posts().then(resp => {
         res.status(200).send(resp);
       });
