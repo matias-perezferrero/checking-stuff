@@ -2,6 +2,7 @@ module.exports = {
   getAllPosts: (req, res) => {
     const db = req.app.get("db");
     const { search, userposts } = req.query;
+    console.log(search, userposts);
     const { id } = req.params;
     if (search !== "" && userposts == "true") {
       // console.log("1");
@@ -19,7 +20,7 @@ module.exports = {
         res.status(200).send(resp);
       });
     } else if (search == "" && userposts == "true") {
-      // console.log("4");
+      console.log("4");
       return db.post.get_all_posts().then(resp => {
         res.status(200).send(resp);
       });

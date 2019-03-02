@@ -17,6 +17,7 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.getUser();
+    this.getPosts();
   }
 
   getUser = async () => {
@@ -28,6 +29,28 @@ class Dashboard extends Component {
       } catch (err) {
         this.props.history.push("/");
       }
+    }
+  };
+
+  getPosts = () => {
+    console.log("hit");
+    const { id } = this.props;
+
+    try {
+      axios
+        .get(
+          `/api/posts/${id}?search=${this.state.search}&userposts=${
+            this.state.userposts
+          }`
+        )
+        .then(res => {
+          console.log(res.data);
+          this.setState({
+            posts: res.data
+          });
+        });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -43,10 +66,16 @@ class Dashboard extends Component {
     });
   };
 
-  handleSearchClick = () => {};
+  handleSearchClick = () => {
+    this.getPosts();
+    this.setState({
+      userposts: false,
+      search: ""
+    });
+  };
 
   render() {
-    console.log(this.state.userposts);
+    console.log(this.props);
     const mappedPosts = this.state.posts.map(post => {
       return <Post key={post.id} post={post} />;
     });

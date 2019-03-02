@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class Post extends Component {
   constructor(props) {
-    super();
+    super(props);
 
     this.state = {
       title: "",
@@ -16,15 +17,22 @@ class Post extends Component {
   //handleGetPost() {}
 
   render() {
+    console.log(this.props);
     return (
       <div>
         Post
-        <h3>{this.state.title}</h3>
-        <h3>{this.state.username}</h3>
-        <h3>{this.state.profile_pic}</h3>
+        <h3>{this.props.post.title}</h3>
+        <h3>{this.props.post.img}</h3>
+        <h3>{this.props.post.content}</h3>
+        <h3>{this.props.username}</h3>
+        <h3>{this.props.profile_pic}</h3>
       </div>
     );
   }
 }
 
-export default Post;
+const mapStateToProps = reduxState => {
+  return reduxState;
+};
+
+export default connect(mapStateToProps)(Post);
